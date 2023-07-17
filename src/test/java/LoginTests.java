@@ -8,32 +8,31 @@ public class LoginTests extends BaseTest {
 
     @Test (enabled = true, priority = 0, description = "Login with invalid email and valid password")
     public void loginInvalidEmailValidPasswordTest(){
+        LOGIN LOGIN = new LOGIN(driver);
+        HOME HOME = new HOME(driver);
 
-
-        provideEmail("invalid@class.com");
-        providePassword("te$t$tudent");
-        clickSubmit();
+       LOGIN.provideEmail("invalid@class.com"). providePassword("te$t$tudent").clickSubmit();
 
         Assert.assertEquals(driver.getCurrentUrl(), url); // https://qa.koel.app/
     }
 
     @Test (enabled = true, priority = 1, description = "Login with valid email and valid password")
     public void loginValidEmailPasswordTest(){
+        LOGIN LOGIN = new LOGIN(driver);
+        HOME HOME = new HOME(driver);
 
+        LOGIN.provideEmail("demo@class.com"). providePassword("te$t$tudent").clickSubmit();
 
-        provideEmail("demo@class.com");
-        providePassword("te$t$tudent");
-        clickSubmit();
         isAvatarDisplayed();
     }
 
     @Test (enabled = true, priority = 3, description = "Login with valid email and empty password")
     public static void loginValidEmailEmptyPasswordTest() {
 
+        LOGIN LOGIN = new LOGIN(driver);
+        HOME HOME = new HOME(driver);
 
-        provideEmail("demo@class.com");
-        providePassword("");
-        clickSubmit();
+        LOGIN.provideEmail("demo@class.com").providePassword("").clickSubmit();
 
         Assert.assertEquals(driver.getCurrentUrl(), url); // https://qa.koel.app/
     }

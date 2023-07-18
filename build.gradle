@@ -19,4 +19,9 @@ test {
     useTestNG() {
         suites "src/test/resources/TestNG.xml"
     }
-}
+    task testqaTest(type: Test) {
+        useTestNG() {
+            suites "src/test/resources/qaTest.xml"
+            systemProperty "browser", System.getProperty("browserName")
+        }
+    }

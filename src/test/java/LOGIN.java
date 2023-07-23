@@ -1,5 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import static org.bouncycastle.cms.RecipientId.password;
 
@@ -9,21 +11,29 @@ public class LOGIN extends BASE {
     public LOGIN(WebDriver givenDriver) {
         super(givenDriver);
     }
-    By emailField = By.cssSelector("input[type='email']");
 
-    By passwordField = By.cssSelector("input[type='password']");
+    //Web Elements
+    @FindBy(css ="input[type='email']" )
+    private WebElement emailField;
+    @FindBy(css = "input[type='password']")
+    private WebElement passwordField;
+    @FindBy (css = "button[type='submit']")
+    private WebElement submitButton;
 
-    By submitButton = By.cssSelector("button[type='submit']");
-
-    public void provideEmail(String email) {
-        findElement(emailField).sendKeys(email);
+    public LOGIN provideEmail(String email){
+        emailField.sendKeys(email);
+        return this;
     }
-    public void providePassword(String password) {
-        findElement(passwordField).sendKeys(password);
+
+    public LOGIN providePassword(String password) {
+     passwordField.sendKeys(password);
+     return this;
     }
 
-    public void clickSubmit(){
-        findElement(submitButton).click();
+    public LOGIN clickSubmit()
+    {
+        submitButton.click();
+        return this;
     }
 
     public void login() {

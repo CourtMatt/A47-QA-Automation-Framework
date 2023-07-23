@@ -32,6 +32,8 @@ public class BaseTest {
 
     public Actions actions= null;
 
+    public static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<WebDriver>();
+
     @BeforeSuite
     static void setupClass() {
         //WebDriverManager.chromedriver().setup();
@@ -75,56 +77,64 @@ public class BaseTest {
         //ChromeOptions options = new ChromeOptions();
         //options.addArguments("--remote-allow-origins=*");
        // driver = new ChromeDriver(options);
-        driver = pickBrowser(System.getProperty("browser"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+       // driver = pickBrowser(System.getProperty("browser"));
+        threadDriver.set(pickBrowser(System.getProperty("browser"));
+        //threadDriver.get().manage().window().maximize();
+     getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+     getDriver().manage().window().maximize();
 
-        actions = new Actions(driver);
-        wait = new WebDriverWait(driver,Duration.ofSeconds(4));
+        actions = new Actions(getDriver());
+        wait = new WebDriverWait(getDriver(),Duration.ofSeconds(4));
 
         url= BaseURL;
         navigateToPage();
     }
 
     @AfterMethod
+
+    public static WebDriver getDriver(){
+        return threadDriver.get();
+    }
     public void closeBrowser() {
-        driver.quit();
+        getDriver().quit();
+        threadDriver.remove();
     }
 
     public static void navigateToPage() {
-        driver.get(url);
+        getDriver().get(url);
     }
 
 
     public static void provideEmail(String email) {
-        WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
+        WebElement emailField = getDriver().findElement(By.cssSelector("input[type='email']"));
         emailField.clear();
         emailField.sendKeys(email);
     }
 
     public static void providePassword(String password) {
-        WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
+        WebElement passwordField = getDriver().findElement(By.cssSelector("input[type='password']"));
         passwordField.clear();
         passwordField.sendKeys(password);
     }
 
     public static void clickSubmit() {
-        WebElement submit = driver.findElement(By.cssSelector("button[type='submit']"));
+        WebElement submit = getDriver().findElement(By.cssSelector("button[type='submit']"));
         submit.click();
     }
 
     public static void clickSaveButton() {
-        WebElement saveButton = driver.findElement(By.cssSelector("button.btn-submit"));
+        WebElement saveButton = getDriver().findElement(By.cssSelector("button.btn-submit"));
         saveButton.click();
     }
 
     public static void provideProfileName(String randomName) {
-        WebElement profileName = driver.findElement(By.cssSelector("[name='name']"));
+        WebElement profileName = getDriver().findElement(By.cssSelector("[name='name']"));
         profileName.clear();
         profileName.sendKeys(randomName);
     }
 
     public static void provideCurrentPassword(String password) {
-        WebElement currentPassword = driver.findElement(By.cssSelector("[name='current_password']"));
+        WebElement currentPassword = getDriver().findElement(By.cssSelector("[name='current_password']"));
         currentPassword.clear();
         currentPassword.sendKeys(password);
     }
@@ -134,7 +144,7 @@ public class BaseTest {
     }
 
     public static void clickAvatarIcon() {
-        WebElement avatarIcon = driver.findElement(By.cssSelector("img.avatar"));
+        WebElement avatarIcon = getDriver().findElement(By.cssSelector("img.avatar"));
         avatarIcon.click();
     }
 }

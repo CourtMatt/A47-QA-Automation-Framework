@@ -20,8 +20,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.fasterxml.jackson.databind.ser.Serializers;
 
 
-
+import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class BaseTest {
@@ -33,6 +34,20 @@ public class BaseTest {
     public Actions actions= null;
 
     public static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<WebDriver>();
+    public static WebDriver lambdaTest() throws MalformedURLException {
+        String hubURL="https://hub.lambdatest.com/wd/hub";
+        ChromeOptions browserOptions = new ChromeOptions();
+        browserOptions.setPlatformName("Windows 10");
+        browserOptions.setBrowserVersion("114.0");
+        HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+        ltOptions.put("username", "courtney.matthews01");
+        ltOptions.put("accessKey", "YlGI6Fbr8O8tZZrvpF27qeyiCkTpVRfWwR0nopIxfL8ESJY7BW");
+        ltOptions.put("project", "Untitled");
+        ltOptions.put("w3c", true);
+        ltOptions.put("plugin", "java-java");
+        browserOptions.setCapability("LT:Options", ltOptions);
+        return new RemoteWebDriver(new URL(hubURL), browserOptions);
+    }
 
     @BeforeSuite
     static void setupClass() {
@@ -60,6 +75,8 @@ public class BaseTest {
             case "grid-chrome":
                 caps.setCapability("browserName", "chrome");
                 return driver = new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
+            case "cloud":
+                return lambdaTest();
             default:
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
@@ -78,7 +95,7 @@ public class BaseTest {
         //options.addArguments("--remote-allow-origins=*");
        // driver = new ChromeDriver(options);
        // driver = pickBrowser(System.getProperty("browser"));
-        threadDriver.set(pickBrowser(System.getProperty("browser"));
+        threadDriver.set(pickBrowser(System.getProperty("browser")));
         //threadDriver.get().manage().window().maximize();
      getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
      getDriver().manage().window().maximize();

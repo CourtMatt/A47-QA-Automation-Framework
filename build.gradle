@@ -22,9 +22,10 @@ test{
     task testqaTest(type: Test) {
         useTestNG() {
             suites "src/test/resources/qaTest.xml"
+            systemProperty "browser", System.getProperty("browserName")
         }
 
-        task Regression(type: Test) {
+        task testRegression(type: Test) {
             useTestNG() {
                 suites "src/test/resources/Regression.xml"
                 systemProperty "browser", System.getProperty("browserName")

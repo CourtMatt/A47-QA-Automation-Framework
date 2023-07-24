@@ -5,10 +5,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
-
- features = {"src/test/resources/features/Login.feature"}
+@CucumberOptions(
+        features = {"src/test/resources/features/Login.feature"}
 //        glue = {"stepDefinition"} // optional
-         )
+)
 
 public class CucumberRunner extends AbstractTestNGCucumberTests {
     private TestNGCucumberRunner testNGCucumberRunner;

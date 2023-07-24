@@ -25,13 +25,13 @@ test{
     useTestNG() {
         suites "src/test/resources/TestNG.xml"
     }
-    task testqaTest(type: Test) {
+    task Smoke(type: Test) {
         useTestNG() {
-            suites "src/test/resources/qaTest.xml"
+            suites "src/test/resources/Smoke.xml"
             systemProperty "browser", System.getProperty("browserName")
         }
 
-        task testRegression(type: Test) {
+        task Regression(type: Test) {
             useTestNG() {
                 suites "src/test/resources/Regression.xml"
                 systemProperty "browser", System.getProperty("browserName")
